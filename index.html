@@ -1,0 +1,89 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rock-Paper-Scissors</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background: linear-gradient(135deg, #060707, #253031);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      color: #fff;
+      text-align: center;
+    }
+    .game-container {
+      background: rgba(255,255,255,0.1);
+      padding: 2em;
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+    .choices { display: flex; gap: 1em; margin: 1em 0; }
+    .choice, .reset-btn {
+      padding: 1em;
+      border-radius: 10px;
+      cursor: pointer;
+      border: none;
+      color: white;
+      font-size: 1rem;
+      transition: 0.3s;
+    }
+    .choice { background: rgba(255,255,255,0.2); }
+    .choice:hover { background: rgba(255,255,255,0.3); transform: scale(1.1); }
+    .reset-btn { background: rgba(255,0,0,0.7); margin-top: 1em; }
+    .reset-btn:hover { background: rgba(255,0,0,0.9); }
+  </style>
+</head>
+<body>
+  <div class="game-container">
+    <div class="choices">
+      <button class="choice" onclick="play('rock')"> Rock</button>
+      <button class="choice" onclick="play('paper')"> Paper</button>
+      <button class="choice" onclick="play('scissors')"> Scissors</button>
+    </div>
+    <div id="result"></div>
+    <div id="score">You: 0 | Computer: 0</div>
+    <button class="reset-btn" onclick="resetScore()">🔄 Reset</button>
+  </div>
+  <script>
+    let userScore = 0;
+    let computerScore = 0;
+
+    function play(userChoice) {
+      const choices = ['rock', 'paper', 'scissors'];
+      const emojis = { rock: '🪨', paper: '📄', scissors: '✂️' };
+      const computerChoice = choices[Math.floor(Math.random() * 3)];
+      let result = '';
+
+      if (userChoice === computerChoice) {
+        result = `It's a draw! You both chose ${emojis[userChoice]}`;
+      } else if (
+        (userChoice === 'rock' && computerChoice === 'scissors') ||
+        (userChoice === 'paper' && computerChoice === 'rock') ||
+        (userChoice === 'scissors' && computerChoice === 'paper')
+      ) {
+        result = `You win! ${emojis[userChoice]} beats ${emojis[computerChoice]}`;
+        userScore++;
+      } else {
+        result = `You lose! ${emojis[computerChoice]} beats ${emojis[userChoice]}`;
+        computerScore++;
+      }
+
+      document.getElementById('result').textContent = result;
+      document.getElementById('score').textContent = `You: ${userScore} | Computer: ${computerScore}`;
+    }
+
+    function resetScore() {
+      userScore = 0;
+      computerScore = 0;
+      document.getElementById('result').textContent = '';
+      document.getElementById('score').textContent = 'You: 0 | Computer: 0';
+    }
+  </script>
+</body>
+</html>
